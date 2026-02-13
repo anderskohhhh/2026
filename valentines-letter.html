@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Valentine's Day ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(255, 182, 193, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 192, 203, 0.4) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(255, 105, 180, 0.3) 0%, transparent 40%),
+                linear-gradient(135deg, #ffd1dc 0%, #ffb6c1 50%, #ff69b4 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            opacity: 0.3;
+        }
+
+        /* Floating hearts and flowers background */
+        .heart-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .floating-heart {
+            position: absolute;
+            font-size: 20px;
+            animation: float 15s infinite;
+            opacity: 0.3;
+        }
+        
+        .floating-flower {
+            position: absolute;
+            font-size: 25px;
+            animation: float 20s infinite;
+            opacity: 0.4;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.3;
+            }
+            90% {
+                opacity: 0.3;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+        }
+
+        h1 {
+            color: #fff;
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeIn 1s ease-in;
+            transition: opacity 0.5s ease;
+        }
+        
+        h1.hidden {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+        }
+        
+        .pre-valentine-message {
+            color: #fff;
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeIn 1s ease-in;
+            font-weight: normal;
+        }
+        
+        .pre-valentine-message.hidden {
+            opacity: 0;
+            pointer-events: none;
+            position: absolute;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .envelope-wrapper {
+            perspective: 1000px;
+            cursor: pointer;
+            display: inline-block;
+            position: relative;
+        }
+        
+        .envelope-wrapper.locked {
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .envelope-wrapper.locked .envelope {
+            pointer-events: none;
+        }
+        
+        .countdown-overlay {
+            position: absolute;
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 3px solid #ff69b4;
+            text-align: center;
+            z-index: 100;
+            min-width: 250px;
+        }
+        
+        .countdown-overlay.hidden {
+            display: none;
+        }
+        
+        .countdown-title {
+            font-size: 16px;
+            color: #ff1493;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .countdown-timer {
+            font-size: 24px;
+            color: #ff69b4;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .password-lock {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.98);
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            border: 3px solid #ff69b4;
+            text-align: center;
+            z-index: 150;
+            min-width: 300px;
+        }
+        
+        .password-lock.hidden {
+            display: none;
+        }
+        
+        .password-lock-title {
+            font-size: 18px;
+            color: #ff1493;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .password-input {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 2px solid #ffb6c1;
+            border-radius: 10px;
+            outline: none;
+            margin-bottom: 15px;
+            text-align: center;
+            font-family: 'Georgia', serif;
+            transition: border-color 0.3s ease;
+        }
+        
+        .password-input:focus {
+            border-color: #ff69b4;
+        }
+        
+        .password-submit {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 16px;
+            background: linear-gradient(135deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 4px 15px rgba(255, 105, 180, 0.4);
+        }
+        
+        .password-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 105, 180, 0.6);
+        }
+        
+        .password-submit:active {
+            transform: translateY(0);
+        }
+        
+        .password-error {
+            color: #ff1493;
+            font-size: 14px;
+            margin-top: 10px;
+            display: none;
+        }
+        
+        .password-error.show {
+            display: block;
+        }
+        
+        .lock-icon {
+            font-size: 40px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.3));
+        }
+        
+        .lock-icon.hidden {
+            display: none;
+        }
+
+        .envelope {
+            width: 300px;
+            height: 200px;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+
+        /* Envelope body */
+        .envelope-body {
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            border: 3px solid #ff69b4;
+            border-radius: 5px;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        /* Envelope flap */
+        .envelope-flap {
+            width: 0;
+            height: 0;
+            border-left: 150px solid transparent;
+            border-right: 150px solid transparent;
+            border-top: 120px solid #ffb6c1;
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: top center;
+            transition: transform 0.6s ease;
+            z-index: 5;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .envelope-flap::before {
+            content: '💌';
+            position: absolute;
+            top: -80px;
+            left: -20px;
+            font-size: 40px;
+        }
+
+        /* Letter inside */
+        .letter {
+            width: 380px;
+            height: 480px;
+            background: linear-gradient(135deg, #fffef9 0%, #fff5f5 100%);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            padding: 45px 40px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            transition: transform 0.8s ease, opacity 0.8s ease;
+            z-index: 20;
+            border: 3px solid #ffb6c1;
+            border-radius: 8px;
+            overflow-y: auto;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .letter::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 10% 20%, rgba(255, 182, 193, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(255, 182, 193, 0.1) 0%, transparent 20%);
+            pointer-events: none;
+            border-radius: 5px;
+        }
+
+        .letter-content {
+            color: #4a4a4a;
+            font-size: 15px;
+            line-height: 1.9;
+            text-align: left;
+            position: relative;
+            z-index: 1;
+            font-family: 'Georgia', 'Times New Roman', serif;
+        }
+        
+        .letter-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #ffe4e1;
+        }
+        
+        .letter-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #ff1493;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+            line-height: 1.4;
+        }
+        
+        .letter-hearts {
+            font-size: 20px;
+            margin: 10px 0;
+        }
+        
+        .itinerary-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #ff69b4;
+            margin: 20px 0 15px 0;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .time-slot {
+            margin-bottom: 12px;
+            padding-left: 10px;
+            border-left: 3px solid #ffe4e1;
+            transition: border-color 0.3s ease;
+        }
+        
+        .time-slot:hover {
+            border-left-color: #ffb6c1;
+        }
+        
+        .time {
+            font-weight: bold;
+            color: #ff69b4;
+            font-size: 14px;
+        }
+        
+        .activity {
+            color: #5a5a5a;
+            margin-left: 5px;
+        }
+        
+        .after-dinner {
+            margin-top: 25px;
+            padding-top: 20px;
+            border-top: 2px solid #ffe4e1;
+            text-align: center;
+        }
+        
+        .after-dinner-title {
+            font-weight: bold;
+            font-size: 16px;
+            color: #ff69b4;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        
+        .after-dinner-content {
+            font-size: 16px;
+            color: #ff1493;
+            font-weight: 500;
+        }
+        
+        .letter-footer {
+            text-align: center;
+            margin-top: 25px;
+            font-size: 20px;
+        }
+
+        /* Open state */
+        .envelope-wrapper.open .envelope-flap {
+            transform: rotateX(-180deg);
+        }
+
+        .envelope-wrapper.open .letter {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .instruction {
+            color: #fff;
+            margin-top: 30px;
+            font-size: 1.2rem;
+            animation: pulse 2s infinite;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Hide instruction when opened */
+        .envelope-wrapper.open ~ .instruction {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="heart-bg" id="heartBg"></div>
+    
+    <div class="container">
+        <h1 id="mainTitle" class="hidden">Happy Valentine's Day! 💕</h1>
+        <h2 class="pre-valentine-message hidden" id="preMessage">Open the letter if you will be my Valentine 💌</h2>
+        
+        <div class="password-lock" id="passwordLock">
+            <div class="password-lock-title">🔒 Please enter your name:</div>
+            <input type="text" id="passwordInput" class="password-input" placeholder="Your name..." />
+            <button id="passwordSubmit" class="password-submit">Unlock 💕</button>
+            <div id="passwordError" class="password-error">Oops! Try again 💭</div>
+        </div>
+        
+        <div class="envelope-wrapper locked" id="envelopeWrapper">
+            <div class="countdown-overlay" id="countdownOverlay">
+                <div class="countdown-title">💝 Unlocks at Midnight 💝</div>
+                <div class="countdown-timer" id="countdownTimer">Loading...</div>
+            </div>
+            <div class="lock-icon" id="lockIcon">🔒</div>
+            <div class="envelope">
+                <div class="envelope-body">
+                    <div class="letter">
+                        <div class="letter-content">
+                            <div class="letter-header">
+                                <div class="letter-hearts">💕</div>
+                                <div class="letter-title">You are cordially invited to a<br>Valentine's Day Date</div>
+                                <div class="letter-hearts">❤️</div>
+                            </div>
+                            
+                            <div class="itinerary-title">✨ Itinerary ✨</div>
+                            
+                            <div class="time-slot">
+                                <span class="time">12pm - 2pm</span>
+                                <span class="activity">Michelin Duck</span>
+                            </div>
+                            
+                            <div class="time-slot">
+                                <span class="time">2pm - 4pm</span>
+                                <span class="activity">Check out dorm</span>
+                            </div>
+                            
+                            <div class="time-slot">
+                                <span class="time">4pm - 5pm</span>
+                                <span class="activity">Head to SZ</span>
+                            </div>
+                            
+                            <div class="time-slot">
+                                <span class="time">5pm - 6pm</span>
+                                <span class="activity">Check in</span>
+                            </div>
+                            
+                            <div class="time-slot">
+                                <span class="time">6pm - 7pm</span>
+                                <span class="activity">Head to Dinner (Brownstone)</span>
+                            </div>
+                            
+                            <div class="after-dinner">
+                                <div class="after-dinner-title">✨ After Dinner ✨</div>
+                                <div class="after-dinner-content">Nantou City for Date!!</div>
+                            </div>
+                            
+                            <div class="letter-footer">💕</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="envelope-flap"></div>
+            </div>
+        </div>
+        
+        <p class="instruction">Click the envelope to open! ✨</p>
+    </div>
+
+    <script>
+        // Password lock system with countdown
+        const envelopeWrapper = document.getElementById('envelopeWrapper');
+        const lockIcon = document.getElementById('lockIcon');
+        const mainTitle = document.getElementById('mainTitle');
+        const preMessage = document.getElementById('preMessage');
+        const passwordLock = document.getElementById('passwordLock');
+        const passwordInput = document.getElementById('passwordInput');
+        const passwordSubmit = document.getElementById('passwordSubmit');
+        const passwordError = document.getElementById('passwordError');
+        const countdownOverlay = document.getElementById('countdownOverlay');
+        const countdownTimer = document.getElementById('countdownTimer');
+        let isOpened = false;
+        let isPasswordUnlocked = false;
+        let isTimeUnlocked = false;
+        
+        // Get midnight tonight in Singapore timezone (SGT is UTC+8)
+        function getMidnightSingaporeTime() {
+            const now = new Date();
+            // Convert to Singapore time
+            const singaporeTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Singapore' }));
+            
+            // Set to next midnight Singapore time
+            const midnight = new Date(singaporeTime);
+            midnight.setHours(24, 0, 0, 0);
+            
+            return midnight.getTime();
+        }
+        
+        const midnightSGT = getMidnightSingaporeTime();
+        
+        // Password check
+        function checkPassword() {
+            const input = passwordInput.value.trim().toLowerCase();
+            if (input === 'phoebe') {
+                isPasswordUnlocked = true;
+                passwordLock.classList.add('hidden');
+                passwordError.classList.remove('show');
+                
+                // Start checking time lock
+                checkTimeLock();
+            } else {
+                passwordError.classList.add('show');
+                passwordInput.value = '';
+                passwordInput.focus();
+            }
+        }
+        
+        passwordSubmit.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkPassword();
+            }
+        });
+        
+        // Check if it's past midnight
+        function checkTimeLock() {
+            const now = new Date();
+            const singaporeNow = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Singapore' }));
+            const distance = midnightSGT - singaporeNow.getTime();
+            
+            if (distance < 0) {
+                // Past midnight - unlock!
+                isTimeUnlocked = true;
+                envelopeWrapper.classList.remove('locked');
+                countdownOverlay.classList.add('hidden');
+                lockIcon.classList.add('hidden');
+                mainTitle.classList.remove('hidden');
+                preMessage.classList.remove('hidden');
+                return;
+            }
+            
+            // Calculate time remaining
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            
+            countdownTimer.textContent = `${hours}h ${minutes}m ${seconds}s`;
+        }
+        
+        // Update countdown every second if password is unlocked
+        setInterval(function() {
+            if (isPasswordUnlocked && !isTimeUnlocked) {
+                checkTimeLock();
+            }
+        }, 1000);
+        
+        // Envelope opening interaction
+        envelopeWrapper.addEventListener('click', function() {
+            if (isPasswordUnlocked && isTimeUnlocked && !isOpened) {
+                this.classList.add('open');
+                isOpened = true;
+            }
+        });
+
+        // Create floating hearts and flowers
+        function createFloatingHeart() {
+            const heartBg = document.getElementById('heartBg');
+            const heart = document.createElement('div');
+            heart.className = 'floating-heart';
+            heart.textContent = '❤️';
+            heart.style.left = Math.random() * 100 + '%';
+            heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+            heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+            heartBg.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 15000);
+        }
+        
+        function createFloatingFlower() {
+            const heartBg = document.getElementById('heartBg');
+            const flower = document.createElement('div');
+            flower.className = 'floating-flower';
+            const flowers = ['🌸', '🌺', '🌹', '🌷', '🌼'];
+            flower.textContent = flowers[Math.floor(Math.random() * flowers.length)];
+            flower.style.left = Math.random() * 100 + '%';
+            flower.style.animationDuration = (Math.random() * 15 + 15) + 's';
+            flower.style.fontSize = (Math.random() * 15 + 20) + 'px';
+            heartBg.appendChild(flower);
+
+            setTimeout(() => {
+                flower.remove();
+            }, 20000);
+        }
+
+        // Create hearts and flowers periodically
+        setInterval(createFloatingHeart, 800);
+        setInterval(createFloatingFlower, 1200);
+
+        // Create initial hearts and flowers
+        for(let i = 0; i < 8; i++) {
+            setTimeout(createFloatingHeart, i * 200);
+        }
+        for(let i = 0; i < 6; i++) {
+            setTimeout(createFloatingFlower, i * 300);
+        }
+    </script>
+</body>
+</html>
